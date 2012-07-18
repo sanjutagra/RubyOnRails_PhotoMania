@@ -1,0 +1,32 @@
+<div id="sign" class="hidden12" style="opacity:.6;">
+<%= form_tag users_signup_path do%>
+<table class="men">
+        <tr><td>Username  : </td><td><%= text_field_tag 'uname', "" %></td></tr>
+        <tr><td>Password : </td><td><%= password_field_tag 'pwd1',"" %></td></tr>
+        <tr><td>Confirm Password : </td><td><%= password_field_tag :'pwd2',"" %></td></tr>
+</table>
+<%= submit_tag "Signup", :onclick => "check(uname.value,pwd1.value,pwd2.value)" %>
+<% end %>
+</div>
+<div class="container">
+<div id="cnt">
+<div class="signup" style="z-index:2;margin-right:10px;float:right;"><%= link_to_function 'Signup', 'if(document.getElementById("sign").className=="hidden12") document.getElementById("sign").className="visible12"; else document.getElementById("sign").className="hidden12";'%></div>
+<%=image_tag("collage.jpg", :size => "1100x570") %></div></div>
+<script>
+function check(a,b,c)
+{
+	if(a.length==0 || b.length==0 || c.length==0)
+	{
+		alert("No Blank Fields are allowed!");
+		return false;
+	}
+	else if(b!=c)
+	{
+		alert("Passwords do not match!");
+		return false;
+	}	
+	else return true;
+}
+</script>
+</body>
+</html>

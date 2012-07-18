@@ -1,0 +1,196 @@
+div.header
+{
+color:white;
+background-color:#2B3A42;
+width:100%;
+position:fixed;
+top:0px;
+right:0px;
+}
+a.hd
+{
+cursor:pointer;
+color:white;
+}
+li.left
+{
+display:inline;
+font-style:italic;
+font-size:20px;
+margin-left:35px;
+}
+li.left1
+{
+display:inline;
+font-style:italic;
+font-size:20px;
+margin-left:175px;
+}
+li.right
+{
+cursor:pointer;
+float:right;
+display:inline;
+font-style:italic;
+font-size:20px;
+margin-right:200px;
+}
+form.abc
+{
+display:inline;
+}
+div.container
+{
+color:black;
+width:100%;
+margin-top:95px;
+}
+div.left12
+{
+color:black;
+margin:10px;
+padding:2em;
+}
+div.p
+{
+	cursor:pointer;
+	display:inline;
+	width:30%;
+	float:left;
+	background-color:#e5eecc;
+	padding:10px;
+	border:solid 1px #c3c3c3;
+	margin:5px;
+}
+#leftcontent
+{
+float:left;
+width:210px;
+margin:5px;
+padding:1em;
+border-right:1px solid gray;
+position:fixed;
+}
+#rightcontent
+{
+margin-left:230px;
+width:700px;
+padding:2em;
+
+}
+#photos
+{
+	border-left:1px solid gray;
+	margin-left:1000px;
+	border:solid 1px #c3c3c3:
+	background-color:#e5eecc;
+	padding:5px;
+}
+
+div.p1
+{
+	cursor:pointer;
+	display:inline;
+	float:left;
+	background-color:#e5eecc;
+	padding:20px;
+	border:solid 1px #c3c3c3;
+	margin:15px;
+}
+.highlight
+{
+color:white;
+background-color:#2B3A42;
+}
+.unhighlight
+{
+}
+#button
+{
+float:right;
+}
+#box
+{
+	cursor:pointer;
+	display:inline;
+	float:left;
+	background-color:#e5eecc;
+	padding:10px;
+	border:solid 1px #c3c3c3;
+	margin-left:250px;
+}
+#box2
+{
+	cursor:pointer;
+	display:inline;
+	float:left;
+	background-color:#e5eecc;
+	padding:10px;
+	border:solid 1px #c3c3c3;
+	margin-left:300px;
+}
+#box1
+{
+	cursor:pointer;
+	display:inline;
+	float:left;
+	background-color:#e5eecc;
+	padding:10px;
+	border:solid 1px #c3c3c3;
+	margin-left:50px;
+}
+#place
+{
+	border:solid 1px #c3c3c3;
+	width:200px;
+	height:240px;
+	position:fixed;
+	top:245px;
+	left:555px;
+	z-index:1;
+}
+#photos .dr
+{
+	width:100px;
+	height:100px;
+	margin:5px;
+}
+#placemug
+{
+	border:solid 1px #c3c3c3;
+	width:90px;
+	height:100px;
+	position:fixed;
+	top:325px;
+	left:610px;
+	z-index:1;
+}
+#placetshirt
+{
+	border:solid 1px #c3c3c3;
+	width:80px;
+	height:80px;
+	position:fixed;
+	top:305px;
+	left:437px;
+	z-index:1;
+}
+.visible12
+{
+visibility:visible;
+position:absolute;
+z-index:1;
+right:50px;
+top:100px;
+background-color:white;
+}
+.hidden12
+{
+visibility:hidden;
+position:absolute;
+z-index:1;
+right:50px;
+top:100px;
+background-color:white;
+}
+

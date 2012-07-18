@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PhotoMania</title>
+  <%= stylesheet_link_tag "login.css" %>
+  <%= javascript_include_tag "PopupWindow.js" %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+<% if session[:user]!=nil %>
+<style>
+table.menu
+{
+font-size:100%;
+position:absolute;
+visibility:hidden;
+}
+td.menu{background:#3F5765}
+.menu a {color:white;}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#product").click(function(){
+		$("#notice").html("");
+		$("#pic").html("");
+		$("#cnt").load("/photo/products");
+	});
+	$(".p").live({mouseenter: function(){
+		$(this).css('background-color', '#3F5765');
+		$(this).css('color', 'white');
+	
+	},mouseleave: function(){
+      		$(this).css('background-color', '#e5eecc');
+		$(this).css('color', 'black');
+   	}});
+
+});
+function showmenu(elmnt)
+{
+document.getElementById(elmnt).style.visibility="visible";
+}
+function hidemenu(elmnt)
+{
+document.getElementById(elmnt).style.visibility="hidden";
+}
+function showpics(a)
+{
+	$("#pic").load("/photo/showpics",{data: a});	
+}
+function showall()
+{
+	$("#cnt").html("");
+	$("#pic").load("/users/showall");	
+}
+function del(a)
+{
+var r=confirm("Are you sure you want to remove this pic?");
+if (r==true)
+  {
+	$.get('/photo/rem',{data: a}, function(dat){ 
+      $("#pic").load("/photo/showpics",{data: dat.response});
+    });
+  }
+}
+
+function check(a,b) {
+if(a.length==0)
+{
+alert("Please provide a file for upload!");
+return false;
+}
+if((a.indexOf(".jpg")!=-1)||(a.indexOf(".png")!=-1)||(a.indexOf(".jpeg")!=-1) || (a.indexOf(".JPG")!=-1) || (a.indexOf(".PNG")!=-1))
+{
+if(b.length>0)
+{
+<% if session[:athome]==nil %>
+var r=confirm("Are you sure you want to leave this page?");
+if (r==true)
+return true;
+else
+return false;
+<% else %>
+return true;
+<% end %>
+}
+
+else{
+alert("Provide an album name!")
+return false;
+}
+}
+else {
+alert("Not a Valid format!");
+return false;
+}
+}
+function showalb(a)
+{
+	$("#photos").load('/users/showalb',{data: a});
+}
+function allowDrop(ev)
+{
+	ev.preventDefault();
+}
+function drag(ev)
+{
+	ev.dataTransfer.setData("Text",ev.target.id);
+}
+function remo()
+{
+<% if session[:athome]==nil %>
+var r=confirm("Are you sure?");
+if (r==true)
+{
+var p=confirm("Are you sure you want to leave this page?");
+if(p==true)
+return true;
+else return false;
+}
+<% else %>
+var r=confirm("Are you sure?");
+if (r==true)
+return true;
+else return false;
+<% end %>
+}
+</script>
+</head>
+<body>
+<% note="" %>
+<div id="modal" style="border:3px solid black; background-color:#3F5765;color:white; padding:25px; font-size:150%; text-align:center; display:none;">
+	<input type="button" value="x" style="position:relative;bottom:39px;left:262px;font-size:10px;" onClick="Popup.hide('modal')"/>	
+	<%= form_tag photo_upload_path, :multipart => true do %>
+	<table class="men">
+        <tr><td>Album name  : </td><td><%= text_field_tag 'aname', "" %></td></tr>
+        <tr><td>Select Photo : </td><td><%= file_field_tag 'image_file' %></td></tr>
+        <tr><td>Description : </td><td><%= text_field_tag :description,value=nil %></td></tr>
+	</table>
+        <%= submit_tag "Upload", :onclick => "return check(image_file.value,aname.value)" %>
+	<% end %><br/>
+        <h5>Album will be created if it does not exists!</h5>
+	<h3>Your Albums:</h3>
+	<% alb=Album.find_all_by_user_id(session[:user].id) %>
+	<% alb.each do |a| %>
+	<%= button_to_function a.aname, "document.getElementById('aname').value=this.value;", :id => a.id %>
+	<br/>
+	<% end %>
+</div>
+<div id="modal2" style="border:3px solid black; background-color:#3F5765;color:white; padding:25px; font-size:150%; text-align:center; display:none;">
+	<input type="button" value="x" style="position:relative;bottom:40px;left:112px;font-size:10px;" onClick="Popup.hide('modal2')"/>	
+	<%= form_tag users_remalb_path do%>
+        <h3>Your Albums:</h3>
+	<% alb=Album.find_all_by_user_id(session[:user].id) %>
+	<% alb.each do |a| %>
+	<%= radio_button_tag 'aname1', a.aname, :checked => true %>
+	<%= label_tag a.aname %><br/>
+	<% end %>
+        <%= submit_tag "Remove", :onclick => "return remo();" %>
+	<% end %><br/>
+</div>
+<div class="header">
+		<ul>	<li class="left"><a class="hd" href="users">PhotoMania</a>
+			<li class="left"><a class="hd" id="product">Products</a>
+			<li class="right" onmouseover="showmenu('scripting')" onmouseout="hidemenu('scripting')"><%= session[:user].email %>
+   			<table class="menu" id="scripting" width="220">
+   				<tr><td class="menu">
+<a href="#" onclick="Popup.showModal('modal');return false;">Upload</a></td></tr>
+   				<tr><td class="menu">
+<a href="#" onclick="Popup.showModal('modal2');return false;">Remove an Album</td></tr>
+				<% if(session[:athome]==1) %><tr><td class="menu"><%= link_to_function "Show all Pics", "showall()", :id =>"showall" %></td></tr><% end %>
+   				<tr><td class="menu"><%= link_to 'logout', users_logout_path %></td></tr>	
+   			</table></li>
+		</ul>
+</div>
+<% else %>
+<script>
+$(document).ready(function(){
+	$("#product").click(function(){
+		$("#notice").html("");
+		$("#pic").html("");
+		$("#cnt").load("/photo/products");
+	});
+	$(".p").live({mouseenter: function(){
+		$(this).css('background-color', '#3F5765');
+		$(this).css('color', 'white');
+	
+	},mouseleave: function(){
+      		$(this).css('background-color', '#e5eecc');
+		$(this).css('color', 'black');
+   	}});
+
+});
+</script> 
+</head>
+<body>
+<p id="notice" style="position:relative;top:70px;z-index:1"><%= notice %></p>
+<div class="im" style="position:absolute;top:30px;"></div>
+<div class="header">
+		<ul>	
+			<li class="left"><a class="hd" href="users">PhotoMania</a>
+			<li class="left"><a class="hd" id="product">Products</a><%= form_tag users_authenticate_path, :class=>"abc" do %>
+			<li class="left1">UserName:<%= text_field_tag :email,value=nil,options={:size => "10"} %>
+			<li class="left">Password:<%= password_field_tag :password,value=nil,options={:size => "10"} %>
+			<li class="left"><%= submit_tag "Log in" %><% end %>
+			
+		</ul>
+</div>
+<% end %>
+<%= yield %>
+
+</body>
+</html>

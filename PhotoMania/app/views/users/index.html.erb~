@@ -1,0 +1,21 @@
+<div class="container">
+	<div id="cnt">
+		<div id="albums" style="float:left;" >
+			<h2 style="color:#3F5765;">Your Albums</h2>
+			<% alb=Album.find_all_by_user_id(session[:user].id) %>
+			<% if alb.count==0 %>
+			<h3>No <b>Albums</b> are there.</h3>
+			<% end %>
+			<% alb.each do |a| %>
+			<img style='border:5px solid gray; padding:3px;' src='data:image/gif;base64,<%="#{a.photos.last.binary_data}"%>' width="100" height="100" /><br/>
+			<%= link_to_function a.aname, "showpics(this.id)", :id => a.id %>
+			<br/>
+			<% end %>
+			<%= notice %></p>
+		</div>
+	
+	</div>
+	<font size="10" style="margin-left:30px;">Welcome <strong style="color:#3F5765"><%= session[:user].email %></strong>! check our new products.</font>
+<div id="pic"></div>	
+</div>
+

@@ -1,0 +1,78 @@
+<div class="container" id="abc">
+<div id="cnt">
+	<div id="leftcontent">
+		<ul>
+			<hr>
+			<li id="step1" ><hr>Select Frame<hr>
+			<li id="step2"><hr>Select Photo<hr>
+			<li id="step3"><hr>Complete Order<hr></li>
+			<hr>
+			<br/><br/>Select an album:<br/>
+			<% alb=Album.find_all_by_user_id(session[:user].id) %>
+			<% alb.each do |a| %>
+			<%= button_to_function a.aname, "showalb(this.id);", :id => a.id %><br/>
+			<% end %>
+		</ul>	
+	</div>
+	<div id="rightcontent">
+		<font size="8"><strong>Step </strong>1: </font><font size="6">Select the frame..</font><span id="button"></span><br/><br/>
+		<div class="p1"><img src="/frames/1.jpg" width="150" height="200" id="1"></div>
+		<div class="p1"><img src="/frames/2.jpg" width="150" height="200" id="2"></div>
+		<div class="p1"><img src="/frames/3.jpg" width="150" height="200" id="3"></div>
+		<div class="p1"><img src="/frames/4.jpg" width="150" height="200" id="4"></div>
+	</div>
+	<div id="photos"></div>
+</div>
+</div>
+<script type="text/javascript">
+document.getElementById("step1").className="highlight";
+function ab()
+{
+	a=document.getElementById("place").innerHTML;
+	if(a=="") return;
+	document.getElementById("place").innerHTML="";
+	document.getElementById("photos").innerHTML+=a;
+	document.getElementById("button").innerHTML="";
+}
+function drop(ev)
+{	
+	
+	ev.preventDefault();
+	if(ev.target.id!="place")
+	{
+		alert("First remove the previous pic");
+		return false;
+	}
+	
+	var data=ev.dataTransfer.getData("Text");
+	img=document.getElementById(data);
+	img.height="240";
+	img.width="200";
+	ev.target.appendChild(document.getElementById(data));
+	$("#button").html('<button id="complete">Place order</button>');
+}
+$(document).ready(function(){
+	var imagesrc="";
+	$(".p1").click(function(){
+		$(".p1").css('background-color', '#e5eecc');
+		$(this).css('background-color', '#3F5765');
+		$("#button").html('<button id="step1.next">Next</button>');
+		imagesrc=$(this).children("img").attr("src");
+	});
+	$("#button").click(function(){
+		document.getElementById("step1").className="unhighlight";
+		document.getElementById("step2").className="highlight";
+		$("#rightcontent").html('<font size="8"><strong>Step </strong>2: </font><font size="6">Drop your photo on frame..</font><span id="button"></span><br/><br/><div id="box"><img src="'+imagesrc+'" align="center" width="250" height="300"/></div><div id="place" ondrop="drop(event)" ondragover="allowDrop(event)"></div><button onclick="ab()">Remove</button>');
+		
+		$("#rightcontent").css('position','fixed');
+		
+	});
+	$("#complete").live("click",function(){
+		$("#rightcontent").html('<font size="10">Thanks for using PhotoMania</font>');
+		document.getElementById("step2").className="unhighlight";
+		document.getElementById("step3").className="highlight";
+	});
+	
+
+});
+</script>
